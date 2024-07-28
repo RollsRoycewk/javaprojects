@@ -2,6 +2,7 @@ package com.atguigu.test;
 
 import com.atguigu.ioc_03.A;
 import com.atguigu.ioc_03.HappyComponent;
+import com.atguigu.ioc_04.JavaBean2;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -77,5 +78,23 @@ public class SpringIoCtest {
         System.out.println(happyComponent == happyComponent1);
         System.out.println(happyComponent2 == happyComponent1);
 
+    }
+
+    /**
+     * 测试ioc配置和销毁方法的触发!
+     */
+    @Test
+    public void test_04(){
+        //1.创建ioc容器  就会进行组件对象的实例化  -> init
+        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("spring-04.xml");
+
+        //ioc -> 容器去调用 destroy
+        //ioc会立即释放,死了!
+        JavaBean2 bean = applicationContext.getBean(JavaBean2.class);
+        JavaBean2 bean1 = applicationContext.getBean(JavaBean2.class);
+        System.out.println(bean == bean1);
+
+        //2.正常结束ioc容器
+        applicationContext.close();
     }
 }
