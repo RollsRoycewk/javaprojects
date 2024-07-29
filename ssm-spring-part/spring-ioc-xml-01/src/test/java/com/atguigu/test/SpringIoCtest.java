@@ -3,6 +3,7 @@ package com.atguigu.test;
 import com.atguigu.ioc_03.A;
 import com.atguigu.ioc_03.HappyComponent;
 import com.atguigu.ioc_04.JavaBean2;
+import com.atguigu.ioc_05.JavaBean;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -95,6 +96,27 @@ public class SpringIoCtest {
         System.out.println(bean == bean1);
 
         //2.正常结束ioc容器
+        applicationContext.close();
+    }
+
+    /**
+     * 读取使用factoryBean工厂配置的组件对象
+     */
+    @Test
+    public void test_05(){
+        //1.创建ioc容器  就会进行组件对象的实例化  -> init
+        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("spring-05.xml");
+
+        //2.读取组件 JavaBean.class ： class com.atguigu.ioc_05.JavaBean
+        JavaBean javaBean = applicationContext.getBean("javaBean", JavaBean.class);
+
+        System.out.println("javaBean = " + javaBean);
+
+        //TODO: FactoryBean工厂也会加入到ioc容器! 名字  &id
+        Object bean = applicationContext.getBean("&javaBean");
+        System.out.println("FactoryBean bean = " + bean);
+
+        //3.正常结束ioc容器
         applicationContext.close();
     }
 }
