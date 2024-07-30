@@ -1,6 +1,7 @@
 package com.atguigu.jdbc;
 
 import com.alibaba.druid.pool.DruidDataSource;
+import com.atguigu.controller.StudentController;
 import com.atguigu.pojo.Student;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -96,5 +97,23 @@ public class JdbcTemplateTest {
         //TODO: BeanPropertyRowMapper帮助我们自动映射列和属性值!要求列名和属性名一致!不一致 起别名!
         List<Student> studentList = jdbcTemplate.query(sql, new BeanPropertyRowMapper<Student>(Student.class));
         System.out.println("studentList = " + studentList);
+    }
+
+    /**
+     * 从ioc容器中获取controller并且调用业务! 内部都是ioc容器进行组装
+     */
+    @Test
+    public void testQueryAll(){
+        //1.创建ioc容器
+        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("spring-02.xml");
+
+        //2.获取组件对象
+        StudentController controller = applicationContext.getBean(StudentController.class);
+
+        //3.使用组件对象
+        controller.findAll();
+
+        //4.关闭容器
+        applicationContext.close();
     }
 }
